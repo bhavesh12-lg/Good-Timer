@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beach-themed Stopwatch</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body Styling */
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') no-repeat center center/cover;
+      overflow: hidden;
+    }
+
+    /* Stopwatch Container */
+    .stopwatch-container {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      width: 300px;
+    }
+
+    /* Stopwatch Display */
+    .stopwatch-display {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+      margin-bottom: 20px;
+    }
+
+    /* Buttons Container */
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+    }
+
+    /* Button Styling */
+    .buttons button {
+      background: rgba(255, 255, 255, 0.3);
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .buttons button:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Button Icons */
+    .buttons button.start {
+      background-color: #4caf50;
+    }
+
+    .buttons button.stop {
+      background-color: #f44336;
+    }
+
+    .buttons button.reset {
+      background-color: #2196f3;
+    }
+  </style>
+</head>
+<body>
+  <div class="stopwatch-container">
+    <div class="stopwatch-display" id="display">00:00:00.00</div>
+    <div class="buttons">
+      <button class="start" onclick="startStopwatch()">Start</button>
+      <button class="stop" onclick="stopStopwatch()">Stop</button>
+      <button class="reset" onclick="resetStopwatch()">Reset</button>
+    </div>
+  </div>
+
+  <script>
+    let timerInterval;
+    let totalMilliseconds = 0;
+
+    function startStopwatch() {
+      if (!timerInterval) {
+        timerInterval = setInterval(updateStopwatch, 10);
+      }
+    }
+
+    function stopStopwatch() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+
+    function resetStopwatch() {
+      stopStopwatch();
+      totalMilliseconds = 0;
+      updateDisplay();
+    }
+
+    function updateStopwatch() {
+      totalMilliseconds += 10;
+      updateDisplay();
+    }
+
+    function updateDisplay() {
+      const hours = Math.floor(totalMilliseconds / 3600000).toString().padStart(2, '0');
+      const minutes = Math.floor((totalMilliseconds % 3600000) / 60000).toString().padStart(2, '0');
+      const seconds = Math.floor((totalMilliseconds % 60000) / 1000).toString().padStart(2, '0');
+      const milliseconds = Math.floor((totalMilliseconds % 1000) / 10).toString().padStart(2, '0');
+
+      document.getElementById('display').textContent = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+    }
+  </script>
+</body>
+</html>
